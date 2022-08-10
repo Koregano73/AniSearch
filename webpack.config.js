@@ -5,11 +5,11 @@ module.exports = {
   entry: './client/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build')
+    path: path.resolve(__dirname, 'build'),
   },
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   plugins: [new HtmlWebpackPlugin({
-    template: './client/index.html'
+    template: './client/index.html',
   })],
   module: {
     rules: [
@@ -29,5 +29,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+  },
+  devServer: {
+    proxy: {
+      '/register': 'http://localhost:3000',
+      '/homepage': 'http://localhost:3000',
+    },
   },
 };

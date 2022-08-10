@@ -7,14 +7,16 @@ import {
 } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
+import Homepage from './components/Homepage';
 
 export default function App() {
   return (
-    <Router>
+    <div>
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
+        <Route exact path="/homepage" element={<Homepage />} />
       </Routes>
-    </Router>
+    </div>
   );
 }
