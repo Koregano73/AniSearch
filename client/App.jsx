@@ -8,7 +8,7 @@ import {
 import Login from './components/Login';
 import Register from './components/Register';
 import Homepage from './components/Homepage';
-import './stylesheets/style.css';
+// import './stylesheets/style.css';
 
 export default function App() {
   return (

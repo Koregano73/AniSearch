@@ -10,6 +10,7 @@ import {
 export default function Register() {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault(); // prevent it from doing the submit default action
@@ -24,21 +25,25 @@ export default function Register() {
         console.log('this is datas', datas);
         if (datas.ok) {
           console.log('this is test', test);
-          alert('Registration successful!');
-          navigate('/');
+          setMessage('Registration successful! Redirecting...');
+          // alert('Registration successful!');
+          setTimeout(() => {
+            navigate('/')}, 2000);
+          // navigate('/');
           return datas.json();
         }
         throw new Error('Something went wrong: status 500');
       })
       .catch((err) => {
         console.log('this is error', err);
-        alert('Username already taken, please try again');
+        setMessage('Username already taken, please try again');
+        // alert('Username already taken, please try again');
         navigate('/register');
       });
   };
   return (
     <div>
-      <header>Please work god please 2</header>
+      <header><strong>Register</strong></header>
       <form onSubmit={handleSubmit}>
         <label>
           Username:
@@ -50,6 +55,7 @@ export default function Register() {
         </label>
         <input type="submit" value="Register"></input>
       </form>
+      <div style={{color:"red"}}>{message}</div>
       <Link to="/">
         <button type="button">Back to Login</button>
       </Link>

@@ -10,6 +10,7 @@ import {
 export default function Login() {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     console.log(username, password);
@@ -24,21 +25,22 @@ export default function Login() {
       })
       console.log('this is userlogin',userLogin);
       if (userLogin.ok) {
-        alert('Logged In!');
-        navigate('/homepage');
+        setMessage('Logged In! Redirecting...');
+        setTimeout(() => {
+          navigate('/homepage')}, 2000);
         return userLogin.json();
       }
       throw new Error('Something went wrong: status 500');
     }
     catch (err) {
       console.log('this is error', err);
-      alert('Incorrect username/password, please try again');
+      setMessage('Incorrect username/password, please try again.');
       navigate('/');
     }
   }
   return (
-    <div>
-      <header>Please work please I beg you</header>
+    <div className='body'>
+      <header><strong>Login</strong></header>
       <form onSubmit={handleSubmit}>
         <label>
           Username:
@@ -50,6 +52,7 @@ export default function Login() {
         </label>
         <input type="submit" value="Login"></input>
       </form>
+      <div style={{color:"red"}}>{message}</div>
       <Link to="/register">
         <button type="button">Register</button>
       </Link>

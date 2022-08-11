@@ -22,6 +22,7 @@ userController.verifyUser = (req, res, next) => {
     .then((user) => {
       console.log('this user is verified', user);
       res.locals.loggedIn = user;
+      res.locals.userId = user._id;
       return next();
     })
     .catch((err) => next(err));
