@@ -39,9 +39,9 @@ export default function Login() {
     }
   }
   return (
-    <div className='body'>
+    <div className='outerBox'>
       <header><strong>Login</strong></header>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <label>
           Username:
           <input type="text" placeholder='Username' onChange={event => setUserName(event.target.value)}></input>
@@ -50,7 +50,7 @@ export default function Login() {
           Password:
           <input type="password" placeholder='Password' onChange={event => setPassword(event.target.value)}></input>
         </label>
-        <input type="submit" value="Login"></input>
+        <input className='button' type="submit" value="Login"></input>
       </form>
       <div style={{color:"red"}}>{message}</div>
       <Link to="/register">

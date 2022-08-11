@@ -42,7 +42,7 @@ export default function Register() {
       });
   };
   return (
-    <div>
+    <div className='outerBox'>
       <header><strong>Register</strong></header>
       <form onSubmit={handleSubmit}>
         <label>
@@ -53,7 +53,7 @@ export default function Register() {
           Password:
           <input type="password" placeholder='Password' onChange={event => setPassword(event.target.value)}></input>
         </label>
-        <input type="submit" value="Register"></input>
+        <input className='button' type="submit" value="Register"></input>
       </form>
       <div style={{color:"red"}}>{message}</div>
       <Link to="/">

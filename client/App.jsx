@@ -8,7 +8,8 @@ import {
 import Login from './components/Login';
 import Register from './components/Register';
 import Homepage from './components/Homepage';
-// import './stylesheets/style.css';
+import Library from './components/Library';
+import './stylesheets/style.css';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route exact path="/" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/homepage" element={<Homepage />} />
+        <Route exact path="/library" element={<Library />} />
       </Routes>
     </div>
   );
