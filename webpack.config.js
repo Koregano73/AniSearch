@@ -7,10 +7,10 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
   },
-  mode: process.env.NODE_ENV,
-  plugins: [new HtmlWebpackPlugin({
-    template: './client/index.html',
-  })],
+  mode: 'development',
+  // plugins: [new HtmlWebpackPlugin({
+  //   template: './client/index.html',
+  // })],
   module: {
     rules: [
       {
@@ -22,7 +22,7 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
     ],
@@ -32,8 +32,8 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '/register': 'http://localhost:3000',
-      '/homepage': 'http://localhost:3000',
+      '/login': 'http://localhost:3000',
+      '/': 'http://localhost:3000',
     },
   },
 };

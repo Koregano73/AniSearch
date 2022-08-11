@@ -1,15 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
 const port = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
-
 const userRouter = require('./controllers/userController');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, '../client')));
+app.use(express.static(path.resolve(__dirname, '../build')));
 // login page
 const mongoURI = 'mongodb://localhost/soloproject';
 mongoose.connect(mongoURI);
@@ -17,11 +17,15 @@ app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
 });
 
-// register
-app.post('/register', userRouter.createUser, (req, res) => {
-  res.status(200).send('Registered!!');
+// login
+app.post('/login', userRouter.verifyUser, (req, res) => {
+  res.status(200).json({ session: res.locals.loggedIn });
 });
 
+// register
+app.post('/register', userRouter.createUser, (req, res) => {
+  res.status(200).json({ user: res.locals.user });
+});
 // redirect to user page to search and add
 app.use('*', (req, res) => {
   res.redirect('/');

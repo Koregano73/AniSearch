@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { render, hydrate } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import './style.css';
 
+// hydrate used for already rendered HTML
 render(
   // eslint-disable-next-line react/jsx-filename-extension
   <BrowserRouter>
