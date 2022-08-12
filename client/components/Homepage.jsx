@@ -24,7 +24,7 @@ export default function Homepage() {
       url: 'https://jikan1.p.rapidapi.com/search/' + parameter2,
       params: {q: parameter },
       headers: {
-        'X-RapidAPI-Key': 'd0d4ac40d7mshd88a38c634d2e5dp1b70d1jsnfa0cf4719701',
+        'X-RapidAPI-Key': 'Your API key here',
         'X-RapidAPI-Host': 'jikan1.p.rapidapi.com'
       }
     };
