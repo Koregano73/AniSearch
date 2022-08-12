@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 3000;
@@ -10,8 +11,8 @@ const cookieRouter = require('./controllers/cookieController');
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, '../build')));
-
 // login page
 const mongoURI = 'mongodb://localhost/soloproject';
 mongoose.connect(mongoURI);
@@ -27,6 +28,16 @@ app.post('/login', userRouter.verifyUser, cookieRouter.setSSIDCookie, (req, res)
 // register
 app.post('/register', userRouter.createUser, (req, res) => {
   res.status(200).json({ user: res.locals.user });
+});
+
+//add new search entry to user's library
+app.post('/homepage', userRouter.addToLibrary, (req, res) => {
+  res.status(200).json({ entry: res.locals.saved });
+});
+
+// load all user's library data to library page
+app.get('/library', userRouter.getLibrary, (req, res) => {
+  return res.status(200).json(res.locals.library);
 });
 
 // redirect to user page to search and add

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const librarySchema = new Schema({
   userid: { type: String, required: true, unique: true },
-  save: { type: Array },
+  save: { type: Array, "default": [] },
 });
 
-module.exports = mongoose.model('library', librarySchema);
+module.exports = mongoose.model('Library', librarySchema);

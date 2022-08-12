@@ -23,8 +23,8 @@ export default function Login() {
         },
         body: JSON.stringify({ username, password }),
       })
-      console.log('this is userlogin',userLogin);
       if (userLogin.ok) {
+        console.log('this is userlogin',userLogin.response);
         setMessage('Logged In! Redirecting...');
         setTimeout(() => {
           navigate('/homepage')}, 2000);
@@ -40,7 +40,7 @@ export default function Login() {
   }
   return (
     <div className='outerBox'>
-      <header><strong>Login</strong></header>
+      <header><strong>Asura Scans Account Login</strong></header>
       <form onSubmit={handleSubmit} >
         <label>
           Username:
