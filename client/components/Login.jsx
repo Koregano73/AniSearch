@@ -14,7 +14,7 @@ export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     console.log(username, password);
-    event.preventDefault(); // prevent it from doing the submit default action
+    event.preventDefault(); 
     try {
       const userLogin = await fetch('/login', {
         method: 'POST',
@@ -24,7 +24,6 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
       })
       if (userLogin.ok) {
-        console.log('this is userlogin',userLogin.response);
         setMessage('Logged In! Redirecting...');
         setTimeout(() => {
           navigate('/homepage')}, 2000);
@@ -33,14 +32,13 @@ export default function Login() {
       throw new Error('Something went wrong: status 500');
     }
     catch (err) {
-      console.log('this is error', err);
       setMessage('Incorrect username/password, please try again.');
       navigate('/');
     }
   }
   return (
     <div className='outerBox'>
-      <header><strong>Asura Scans Account Login</strong></header>
+      <header><strong>AniSearch Account Login</strong></header>
       <form onSubmit={handleSubmit} >
         <label>
           Username:

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./client/",
+    "noImplicitAny": true,
+    "module": "CommonJS",
+    "target": "es6",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+  }
+}
