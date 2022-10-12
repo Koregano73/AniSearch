@@ -13,9 +13,13 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, '../build')));
+
 // login page
-const mongoURI = 'mongodb://localhost/soloproject';
-mongoose.connect(mongoURI);
+const myURI = 'mongodb+srv://Chris:test@gradassessment.ywrnwbq.mongodb.net/?retryWrites=true&w=majority';
+
+// UNCOMMENT THE LINE BELOW IF USING MONGO
+const URI = process.env.MONGO_URI || myURI;
+mongoose.connect(URI);
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
 });
@@ -40,10 +44,15 @@ app.get('/library', userRouter.getLibrary, (req, res) => {
   return res.status(200).json(res.locals.library);
 });
 
+// delete entry from library
+app.delete('/library', userRouter.deleteLibrary, (req, res) => {
+  return res.status(200).json(res.locals.newLibrary);
+})
 // redirect to user page to search and add
 app.use('*', (req, res) => {
   res.redirect('/');
 });
+
 
 // global error handler
 app.use((err, req, res) => {

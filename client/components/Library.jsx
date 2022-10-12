@@ -1,35 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
   Link,
-  useNavigate,
 } from 'react-router-dom';
-import axios from "axios";
 
 export default function Library() {
-  const [searchtxt, setSearch] = useState('');
+  // page state to set max number of entries on page
   const [page, setPage] = useState(0);
-  const [responseData, setResponseData] = useState(null);
+  // local API server state to get user's data
+  const [responseData, setResponseData] = useState([]);
+  // life cycle method to populate page with user library entries
   useEffect(() => {
     getData();
   }, []);
-  function getData() {
-    fetch('/library', {
+
+  // get method to get user's library data and update state
+  async function getData() {
+    return fetch('/library', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    .then(res => {res.json();})
+    .then(res => {return res.json();})
     .then(data => {
-      console.log('this is userlibrary',data);
-      setResponseData(data);
+      return setResponseData(data);
     })
     .catch(err => console.log(err));
+  };
+
+  // remove an entry from the library when the press the button remove
+  const removeLibrary = async (event) => {
+    const find = responseData.filter(obj => {
+      return obj.title === event.currentTarget.id;
+    })
+    const resultObj = find[0];
+    try {
+      const library = await fetch('/library', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultObj),
+      })
+      if (library.ok) {
+        const newLib = await library.json();
+        return setResponseData(newLib);
+      }
+    }
+    catch (err) {
+      console.log('this is error', err);
+    }
   }
-  // if (!responseData) return <div>No Record Found</div>;
+
   return (
     <div className='outerBox'>
       <Link to="/homepage">
@@ -63,22 +86,22 @@ export default function Library() {
           </div>
         </form>
       </div>
-      {/* <div>
+      <div>
         {responseData.map((result) => (
           // eslint-disable-next-line react/jsx-key
           <div className='marketBox'> 
-            <div className='button' id={result.title} style={{float:"left"}}>
+            <div className='button' onClick={event => removeLibrary(event)} id={result.title} style={{float:"left"}}>
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
               </svg>
             </div>
-            <img src = {result.image_url}></img>
+            <img className='imageboxes' src = {result.images.jpg.large_image_url}></img>
             <p><strong>{result.title}</strong></p>
             <a href={result.url} target="_blank" rel="noopener noreferrer">Link</a>
-            <p>{result.synopsis}</p>
+            <p className='bodyText'>{result.synopsis}</p>
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   )
 }

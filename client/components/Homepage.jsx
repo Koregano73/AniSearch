@@ -1,51 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
   Link,
-  useNavigate,
 } from 'react-router-dom';
 
 
 export default function Homepage() {
+  // initialized state hooks for the response data from the API
   const [responseData, setResponseData] = useState(null);
+  // state for search text
   const [searchtxt, setSearch] = useState('');
+  // state for genre user text
   const [genretxt, setGenre] = useState('');
+  // state to allow user to swap between pages of response data entry
   const [page, setPage] = useState(0);
+  // useeffect life cycle method to update it to default one piece the anime
   useEffect(() => {
     getData('One Piece', 'anime');
   }, []);
   
-  async function getData(parameter, parameter2) {
-    const options = {
+  // function fetches from the jikan API using 2 parameters and sets state with returned data
+  async function getData(searchText, genre) {
+    return fetch(`https://api.jikan.moe/v4/${genre}?q='${searchText}'`, {
       method: 'GET',
-      url: 'https://jikan1.p.rapidapi.com/search/' + parameter2,
-      params: {q: parameter },
-      headers: {
-        'X-RapidAPI-Key': 'd0d4ac40d7mshd88a38c634d2e5dp1b70d1jsnfa0cf4719701',
-        'X-RapidAPI-Host': 'jikan1.p.rapidapi.com'
-      }
-    };
-    return axios.request(options).then(function (response) {
-      setResponseData(response.data.results);
-    }).catch(function (error) {
+      mode: 'cors',
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      setResponseData(data.data);
+    })
+    .catch(function (error) {
       console.error(error);
     });
-  }
+  };
 
+  // prevent reloading when using button, and call the async data function
   const searchAPI = (event) => {
     event.preventDefault();
     getData(searchtxt, genretxt);
-  }
+  };
+
+  // function to async add data entries into their library via POST method
   const addLibrary = async (event) => {
-    // const arr = data.split(',');
-    console.log('this is event target id', event.currentTarget.id);
     const find = responseData.filter(obj => {
       return obj.title === event.currentTarget.id;
     })
-    console.log(find[0]);
     const resultObj = find[0];
     try {
       const library = await fetch('/homepage', {
@@ -55,7 +56,6 @@ export default function Homepage() {
         },
         body: JSON.stringify(resultObj),
       })
-      console.log('this is find', library);
       if (library.ok) {
         return library.json();
       }
@@ -66,7 +66,9 @@ export default function Homepage() {
     }
   }
 
+  // used if there is some error with user accessing home page and not receiving data
   if (!responseData) return <div>No Record Found</div>;
+
   return (
     <div className='outerBox'>
       <Link to="/library">
@@ -110,10 +112,10 @@ export default function Homepage() {
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
               </svg>
             </div>
-            <img src = {result.image_url}></img>
+            <img src = {result.images.jpg.large_image_url}></img>
             <p><strong>{result.title}</strong></p>
             <a href={result.url} target="_blank" rel="noopener noreferrer">Link</a>
-            <p>{result.synopsis}</p>
+            <p className='bodyText'>{result.synopsis}</p>
           </div>
         ))}
           

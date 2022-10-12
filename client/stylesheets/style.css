@@ -75,3 +75,13 @@ button, .button {
   /* font-size: .8em; */
   box-shadow: 5px 5px 15px rgba(0, 0, 0, .2);
 }
+
+.bodyText {
+  padding: 5px;
+  max-height: 150px;
+  overflow-y: scroll;
+  margin: 5px;
+}
+.imageboxes {
+  max-height: 500px;
+}
