@@ -2,15 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './src/client/index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
   },
   mode: 'development',
-  // plugins: [new HtmlWebpackPlugin({
-  //   template: './client/index.html',
-  // })],
+  plugins: [new HtmlWebpackPlugin({
+    template: './src/client/index.html',
+  })],
   module: {
     rules: [
       {
@@ -25,10 +25,15 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.tsx?$/,
+        use: ['ts-loader'],
+        exclude: /node_modules/,
+      },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx','.ts','.tsx'],
   },
   devServer: {
     proxy: {
