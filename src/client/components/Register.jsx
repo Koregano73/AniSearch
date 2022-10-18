@@ -24,12 +24,9 @@ export default function Register() {
       .then((datas) => {
         console.log('this is datas', datas);
         if (datas.ok) {
-          console.log('this is test', test);
           setMessage('Registration successful! Redirecting...');
-          // alert('Registration successful!');
           setTimeout(() => {
             navigate('/')}, 2000);
-          // navigate('/');
           return datas.json();
         }
         throw new Error('Something went wrong: status 500');
@@ -37,7 +34,6 @@ export default function Register() {
       .catch((err) => {
         console.log('this is error', err);
         setMessage('Username already taken, please try again');
-        // alert('Username already taken, please try again');
         navigate('/register');
       });
   };
