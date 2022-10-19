@@ -1,6 +1,5 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-const Library = require('../models/libraryModel');
 const userController = {};
 
 // create user- connect to mongodb user document schema and create a user if not in database
