@@ -10,7 +10,7 @@ export default function Library() {
   // life cycle method to populate page with user library entries
   useEffect(() => {
     // get method to get user's library data and update state
-    async function getData() {
+    function getData() {
       return fetch('/library', {
         method: 'GET',
         headers: {
@@ -46,7 +46,8 @@ export default function Library() {
       })
       if (library.ok) {
         const newLib:DataEntry[] = await library.json() as DataEntry[];
-        return setResponseData(newLib);
+        setResponseData(newLib);
+        return;
       }
     }
     catch (err) {
@@ -90,7 +91,14 @@ export default function Library() {
       <div>
         {responseData.map((result:DataEntry) => (
           <div className='marketBox'> 
-            <div className='button' onClick={void (async (event:React.FormEvent<EventTarget>) => await removeLibrary(event))} id={result.title} style={{float:"left"}}>
+            <div className='button' onClick={(event:React.FormEvent<EventTarget>) => {
+              (() => {
+                  removeLibrary(event)
+                    .catch ((err) => {
+                      console.log(err);
+                    })
+              })();
+              }} id={result.title} style={{float:"left"}}>
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
               </svg>
