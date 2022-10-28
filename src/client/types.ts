@@ -1,6 +1,6 @@
 import React from 'react';
 export type Data = {
-  data: DataEntry,
+  data: DataEntry[],
   pagination: {
     last_visible_page: number,
     has_next_page: boolean,
